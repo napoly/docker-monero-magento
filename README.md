@@ -1,7 +1,7 @@
-<h1 align="center">markshust/docker-magento</h1>
+<h1 align="center">napoly/docker-monero-magento</h1>
 
 <div align="center">
-  <p>Mark Shust's Docker Configuration for Magento</p>
+  <p>Modified Mark Shust's Docker Configuration for Magento</p>
   <img src="https://img.shields.io/badge/magento-2.X-brightgreen.svg?logo=magento&longCache=true" alt="Supported Magento Versions" />
   <a href="https://hub.docker.com/r/markoshust/magento-php/" target="_blank"><img src="https://img.shields.io/docker/pulls/markoshust/magento-php.svg?label=php%20docker%20pulls" alt="Docker Hub Pulls - PHP" /></a>
   <a href="https://hub.docker.com/r/markoshust/magento-nginx/" target="_blank"><img src="https://img.shields.io/docker/pulls/markoshust/magento-nginx.svg?label=nginx%20docker%20pulls" alt="Docker Hub Pulls - Nginx" /></a>
@@ -144,6 +144,8 @@ This configuration has been tested on Mac & Linux. Windows is supported through 
 
 ### Automated Setup (New Project)
 
+Not sutable for testing monero integration as of now. Please follow the manual setup for core magento development.
+
 ```bash
 # Create your project directory then go into it:
 mkdir -p ~/Sites/magento
@@ -178,20 +180,23 @@ mkdir -p ~/Sites/magento
 cd $_
 
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
+curl -s https://raw.githubusercontent.com/napoly/docker-monero-magento/monero-integration/lib/template | bash
 
 # Download the version of Magento you want to use with:
-bin/download 2.4.7 community
+# bin/download 2.4.7 community
 # You can specify the version and type (community, enterprise, mageos, mageos-nightly, mageos-mirror, mageos-hypernode-mirror, or mageos-maxcluster-mirror).
 # The mageos type is an alias for mageos-mirror.
 # If no arguments are passed, "2.4.7" and "community" are the default values used.
 
-# or for Magento core development:
-# bin/start --no-dev
-# bin/setup-composer-auth
-# bin/cli git clone git@github.com:magento/magento2.git .
-# bin/cli git checkout 2.4-develop
-# bin/composer install
+# or for Magento / Monero core development:
+bin/start --no-dev
+bin/setup-composer-auth
+bin/cli git clone https://github.com/napoly/magento2.git .
+bin/cli git checkout monero-integration
+bin/cli git clone https://github.com/magento/magento2-sample-data
+bin/cli php -f magento2-sample-data/dev/tools/build-sample-data.php -- --ce-source="."
+bin/composer require monerointegrations/moneropayment
+bin/composer install
 
 # Want to install Magento <2.4.6? In bin/setup-install, replace the lines:
 #  --elasticsearch-host="$ES_HOST" \

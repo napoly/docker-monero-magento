@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 git init -qqq
-git remote add origin https://github.com/markshust/docker-magento
+git remote add origin https://github.com/napoly/docker-monero-magento
 git fetch origin -qqq
-git checkout origin/master -- compose
+git checkout origin/monero-integration -- compose
 mv compose/* ./
 mv compose/.gitignore ./
 mv compose/.vscode ./
